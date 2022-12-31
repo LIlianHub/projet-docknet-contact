@@ -10,6 +10,7 @@ namespace ballejos
     [Serializable]
     public class DataStructure
     {
+        // La racine de l'arborecence
         public Dossier Root;
         
         public DataStructure()
@@ -17,10 +18,9 @@ namespace ballejos
             Root = new Dossier("Root");
         }
 
- 
-
         public override string ToString()
         {
+            // On va parcourir l'arborescence et afficher chaque dossier en partant de la racine
             return Root.ToString(0);
         }
 

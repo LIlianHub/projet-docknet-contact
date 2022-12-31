@@ -17,6 +17,8 @@ namespace ballejos
         public DateTime CreationDate;
         public DateTime LastUpdate;
 
+        public Contact() { }
+
         public Contact(String lastName, String firstName, String email, String link)
         {
             LastName = lastName;
@@ -27,8 +29,7 @@ namespace ballejos
             LastUpdate = DateTime.Now;
         }
 
-
-
+        // On affiche les éléements de contact plus ou moins décalés sur la droite en fonction de la profondeur dans l'arborescence
         public override string ToString(int space)
         {
             string retour = "|";
@@ -42,8 +43,3 @@ namespace ballejos
     }
 }
 
-/*Try
-   mailAddress = New MailAddress("testing@invalid@email.com")
-Catch ex As Exception
-   'Invalid email
-End Try*/

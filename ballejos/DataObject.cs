@@ -9,6 +9,7 @@ namespace ballejos
     [Serializable]
     public class DataObject : IDataObject
     {
+        //Class globale pour les objets de données, elle hérite de l'interface IDataObject
         public virtual string ToString(int space)
         {
             return "DataObject";
