@@ -30,10 +30,16 @@ namespace ballejos
             // Boucle Principale adaptable pour du graphique
             while (!exit)
             {
+                // Quand l'utilisateur ecrit c'est vert
+                Console.ForegroundColor = ConsoleColor.Green;
+                
                 // Affichage de l'interface et récupération de l'entrée utilisateur
                 Console.Write("{0}~ ", localisation);
                 input = Console.ReadLine();
                 inputElement = input.Split(' ');
+
+                // Quand le programme repond c'est blanc
+                Console.ForegroundColor = ConsoleColor.White;
 
                 switch (inputElement[0])
                 {
@@ -91,7 +97,7 @@ namespace ballejos
 
                     // Mauvaise entrée
                     default:
-                        Console.WriteLine("Instruction inconnue.\n");
+                        Console.WriteLine("Instruction inconnue.");
                         break;
                 }
             }
@@ -119,8 +125,8 @@ namespace ballejos
                 tool2 = SerializeBinary.Deserialize(inputElement[1], FormatKeyFromUser());
             }
 
-            // Clef donnée
-            else if(inputElement.Length == 3)
+            // Clef donnée et valide
+            else if(inputElement.Length == 3 && ValidKey(inputElement[2]))
             {
                 // On charge en déchiffrant avec la clef donnée
                 tool2 = SerializeBinary.Deserialize(inputElement[1], inputElement[2]);
@@ -138,18 +144,26 @@ namespace ballejos
             {
                 return actual;
             }
-            
         }
 
         private static DataStructure ChargerXML(String[] inputElement, DataStructure actual)
         {
             DataStructure tool2 = null;
-            // Bon nombre d'argument
+            // Pas de clef donnée
             if (inputElement.Length == 2)
             {
-                // On charge le fichier avec le nom donné
-                tool2 = SerializeXML.Deserialize(inputElement[1]);
+                // On charge en déchiffrant à l'aide du SID
+                tool2 = SerializeXML.Deserialize(inputElement[1], FormatKeyFromUser());
             }
+
+            // Clef donnée et valide
+            else if (inputElement.Length == 3 && ValidKey(inputElement[2]))
+            {
+                // On charge en déchiffrant avec la clef donnée
+                tool2 = SerializeXML.Deserialize(inputElement[1], inputElement[2]);
+            }
+            else
+                Console.WriteLine("Erreur de syntaxe");
 
             // Si il n'y a pas eu de soucis on change
             if (tool2 != null)
@@ -168,13 +182,11 @@ namespace ballejos
             // Pas de clef donnée
             if (inputElement.Length == 2)
             {
-                // On enregistre en chiffrant à l'aide du SID
                 SerializeBinary.Serialize(actual, inputElement[1], FormatKeyFromUser());
             }
             // Clef donnée et valide
             else if(inputElement.Length == 3 && ValidKey(inputElement[2]))
             {
-                // On enregistre en chiffrant avec la clef donnée
                 SerializeBinary.Serialize(actual, inputElement[1], inputElement[2]);
             }
             else
@@ -183,11 +195,15 @@ namespace ballejos
 
         private static void EnregistrerXML(String[] inputElement, DataStructure actual)
         {
-            // Bon nombre d'argument
+            // Pas de clef donnée
             if (inputElement.Length == 2)
             {
-                // On enregistre en XML
-                SerializeXML.Serialize(actual, inputElement[1]);
+                SerializeXML.Serialize(actual, inputElement[1], FormatKeyFromUser());
+            }
+            // Clef donnée et valide
+            else if (inputElement.Length == 3 && ValidKey(inputElement[2]))
+            {
+                SerializeXML.Serialize(actual, inputElement[1], inputElement[2]);
             }
             else
                 Console.WriteLine("Erreur de syntaxe");

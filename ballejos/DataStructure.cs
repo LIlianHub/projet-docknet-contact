@@ -24,5 +24,11 @@ namespace ballejos
             return Root.ToString(0);
         }
 
+        public void RepairFoldersAfterSerialization()
+        {
+            // On va parcourir l'arborescence et réparer les liens entre les dossiers
+            Root.RepairFolderParent();
+        }
+
     }
 }

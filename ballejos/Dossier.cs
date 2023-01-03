@@ -98,6 +98,19 @@ namespace ballejos
             }
             return this;
         }
+        
+        public void RepairFolderParent()
+        {
+            foreach (DataObject element in Children)
+            {
+                if (element is Dossier)
+                {
+                    Dossier folder = (Dossier)element;
+                    folder.Parent = this;
+                    folder.RepairFolderParent();
+                }
+            }
+        }
 
 
     }

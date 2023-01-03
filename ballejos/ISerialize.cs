@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace ballejos
 {
-    internal interface ISerialize
+    public interface ISerialize
     {
-        
+
     }
 }

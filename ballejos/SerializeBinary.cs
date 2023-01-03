@@ -52,6 +52,7 @@ namespace ballejos
             }
             finally
             {
+                // On ferme le fichier quoi qu'il arrive
                 fs.Close();
             }
         }
@@ -64,24 +65,25 @@ namespace ballejos
             // Nom d'utilisateur idem que précédement
             String[] formatedName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split('\\');
             String fileName = "dsBin-" + formatedName[1] + "-" + name + ".dat";
-            
+
+            // 
+            BinaryFormatter formatter = new BinaryFormatter();
             try
             {
                 // On essaye d'ouvrir le fichier demandé
-                FileStream fs = new FileStream(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), fileName), FileMode.Open);
-                BinaryFormatter formatter = new BinaryFormatter();
-                
-                // On essaye de déchiffrer le flux
-                DESCryptoServiceProvider cryptic = new DESCryptoServiceProvider();
-                cryptic.Key = ASCIIEncoding.ASCII.GetBytes(key);
-                cryptic.IV = ASCIIEncoding.ASCII.GetBytes(key);
-                CryptoStream crStream = new CryptoStream(fs,cryptic.CreateDecryptor(), CryptoStreamMode.Read);
+                using (FileStream fs = new FileStream(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), fileName), FileMode.Open))
+                {
+                    // On essaye de déchiffrer le flux
+                    DESCryptoServiceProvider cryptic = new DESCryptoServiceProvider();
+                    cryptic.Key = ASCIIEncoding.ASCII.GetBytes(key);
+                    cryptic.IV = ASCIIEncoding.ASCII.GetBytes(key);
 
-                // Lecture
-                myds = (DataStructure)formatter.Deserialize(crStream);
-                
-                crStream.Close();
-                fs.Close();
+                    using (CryptoStream crStream = new CryptoStream(fs, cryptic.CreateDecryptor(), CryptoStreamMode.Read))
+                    {
+                        // On essaye de lire le fichier
+                        myds = formatter.Deserialize(crStream) as DataStructure;
+                    }
+                }
             }
             // Exception levée car le fichier existe pas (erreur lors de fs)
             catch (FileNotFoundException)
@@ -89,9 +91,9 @@ namespace ballejos
                 Console.WriteLine("Fichier Inconnu ou corrompu !");
             }
             // Exception levée car la clef n'est pas celle qu'il faut pour déchiffrer
-            catch (SerializationException)
+            catch (CryptographicException)
             {
-                Console.WriteLine("Erreur lors du déchiffrage");
+                Console.WriteLine("Erreur lors du déchiffrage: clef possiblement invalide");
             }
             // Exception levée car la clef n'est pas bien formattée
             catch (ArgumentException)
