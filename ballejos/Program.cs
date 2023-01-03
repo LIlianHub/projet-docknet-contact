@@ -115,6 +115,7 @@ namespace ballejos
             Console.WriteLine(ds.ToString());
         }
 
+        // Gère l'entrée utilisateur pour charger un fichier binaire
         private static DataStructure ChargerBinaire(String[] inputElement, DataStructure actual)
         {
             DataStructure tool2 = null;
@@ -146,6 +147,7 @@ namespace ballejos
             }
         }
 
+        // Gère l'entrée utilisateur pour charger un fichier XML
         private static DataStructure ChargerXML(String[] inputElement, DataStructure actual)
         {
             DataStructure tool2 = null;
@@ -177,6 +179,7 @@ namespace ballejos
             }
         }
 
+        // Gère l'entrée utilisateur pour enregistrer un fichier binaire
         private static void EnregistrerBinaire(String[] inputElement, DataStructure actual)
         {
             // Pas de clef donnée
@@ -193,6 +196,7 @@ namespace ballejos
                 Console.WriteLine("Erreur de syntaxe: enregistrerBinaire nomFichier Clef(optionnelle)");
         }
 
+        // Gère l'entrée utilisateur pour enregistrer un fichier XML
         private static void EnregistrerXML(String[] inputElement, DataStructure actual)
         {
             // Pas de clef donnée
@@ -209,6 +213,7 @@ namespace ballejos
                 Console.WriteLine("Erreur de syntaxe: enregistrerXML nomFichier Clef(optionnelle)");
         }
 
+        // Gère l'entrée utilisateur pour ajouter un dossier
         private static void AjouterDossier(String[] inputElement, Dossier currentFolder)
         {
             if (inputElement.Length == 2)
@@ -217,6 +222,7 @@ namespace ballejos
                 Console.WriteLine("Erreur de syntaxe: ajouterdossier nomDossier");
         }
 
+        // Gère l'entrée utilisateur pour ajouter un contact
         private static void AjouterContact(String[] inputElement, Dossier currentFolder)
         {
             if (inputElement.Length == 5)
@@ -241,6 +247,7 @@ namespace ballejos
                 Console.WriteLine("Erreur de syntaxe: ajoutercontact nom prenom mail lien");
         }
 
+        // Gère l'entrée utilisateur pour aller dans un dossier
         private static Dossier Avancer(String[] inputElement, Dossier currentFolder)
         {
             if (inputElement.Length == 2)
@@ -264,7 +271,7 @@ namespace ballejos
             return currentFolder;
         }
 
-
+        // Gère l'entrée utilisateur pour revenir en arrière
         private static Dossier Reculer(Dossier currentFolder)
         {
             // Si on est pas à la racine on met à jour sinon non
@@ -279,6 +286,7 @@ namespace ballejos
             return currentFolder;
         }
 
+        // Créé un tableau de byte à partir du SID de l'utilisateur
         private static byte[] FormatKeyFromUser()
         {
             // Utilisation du chiffrage AES donc on crée une clef a partir du SID
@@ -286,6 +294,7 @@ namespace ballejos
             return UE.GetBytes(WindowsIdentity.GetCurrent().User.ToString());
         }
 
+        // Créé un tableau de byte à partir d'une chaine de caractère
         private static byte[] FormatKeyFromString(String key)
         {
             // Utilisation du chiffrage AES donc on crée une clef a partir de la clef en String
