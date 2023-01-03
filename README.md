@@ -1,5 +1,9 @@
 # Gestionnaire de contact
 
+## Periode de création
+
+- Janvier 2023
+
 ## Langage utilisé
 
 - C# (.NET framework)
