@@ -14,7 +14,7 @@ namespace ballejos
 {
     internal class SerializeXML: ISerialize
     {
-        public static void Serialize(DataStructure myds, String name, String key)
+        public static void Serialize(DataStructure myds, String name, byte[] key)
         {
             // Nom d'utilisateur dans  la case 1 (dans la case 0 nom du pc)
             String[] formatedName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split('\\');
@@ -30,12 +30,12 @@ namespace ballejos
             try
             {
                 // On chiffre en écrivant dans le stream
-                DESCryptoServiceProvider cryptic = new DESCryptoServiceProvider();
-                cryptic.Key = ASCIIEncoding.ASCII.GetBytes(key);
-                cryptic.IV = ASCIIEncoding.ASCII.GetBytes(key);
+                AesCryptoServiceProvider AES = new AesCryptoServiceProvider();
+                AES.Key = SHA256Managed.Create().ComputeHash(key);
+                AES.IV = MD5.Create().ComputeHash(key);
 
                 // On enregistre notre objet
-                using (CryptoStream crStream = new CryptoStream(fs, cryptic.CreateDecryptor(), CryptoStreamMode.Write))
+                using (CryptoStream crStream = new CryptoStream(fs, AES.CreateEncryptor(), CryptoStreamMode.Write))
                 {
                     // On essaye d'écrire dans le fichier
                     XmlWriter writer = new XmlTextWriter(crStream, Encoding.Unicode);
@@ -62,7 +62,7 @@ namespace ballejos
             }
         }
 
-        public static DataStructure Deserialize(String name, String key)
+        public static DataStructure Deserialize(String name, byte[] key)
         {
             DataStructure myds = null;
 
@@ -80,11 +80,11 @@ namespace ballejos
                 using (FileStream fs = new FileStream(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), fileName), FileMode.Open))
                 {
                     // On essaye de déchiffrer le flux
-                    DESCryptoServiceProvider cryptic = new DESCryptoServiceProvider();
-                    cryptic.Key = ASCIIEncoding.ASCII.GetBytes(key);
-                    cryptic.IV = ASCIIEncoding.ASCII.GetBytes(key);
+                    AesCryptoServiceProvider AES = new AesCryptoServiceProvider();
+                    AES.Key = SHA256Managed.Create().ComputeHash(key);
+                    AES.IV = MD5.Create().ComputeHash(key);
 
-                    using (CryptoStream crStream = new CryptoStream(fs, cryptic.CreateDecryptor(), CryptoStreamMode.Read))
+                    using (CryptoStream crStream = new CryptoStream(fs, AES.CreateDecryptor(), CryptoStreamMode.Read))
                     {
                         // On essaye de lire le fichier
                         myds = serializer.Deserialize(crStream) as DataStructure;

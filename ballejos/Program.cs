@@ -126,10 +126,10 @@ namespace ballejos
             }
 
             // Clef donnée et valide
-            else if(inputElement.Length == 3 && ValidKey(inputElement[2]))
+            else if(inputElement.Length == 3)
             {
                 // On charge en déchiffrant avec la clef donnée
-                tool2 = SerializeBinary.Deserialize(inputElement[1], inputElement[2]);
+                tool2 = SerializeBinary.Deserialize(inputElement[1], FormatKeyFromString(inputElement[2]));
             }
             else
                 Console.WriteLine("Erreur de syntaxe: chargerBinaire nomFichier Clef(optionnelle)");
@@ -157,10 +157,10 @@ namespace ballejos
             }
 
             // Clef donnée et valide
-            else if (inputElement.Length == 3 && ValidKey(inputElement[2]))
+            else if (inputElement.Length == 3)
             {
                 // On charge en déchiffrant avec la clef donnée
-                tool2 = SerializeXML.Deserialize(inputElement[1], inputElement[2]);
+                tool2 = SerializeXML.Deserialize(inputElement[1], FormatKeyFromString(inputElement[2]));
             }
             else
                 Console.WriteLine("Erreur de syntaxe: chargerXML nomFichier Clef(optionnelle)");
@@ -185,9 +185,9 @@ namespace ballejos
                 SerializeBinary.Serialize(actual, inputElement[1], FormatKeyFromUser());
             }
             // Clef donnée et valide
-            else if(inputElement.Length == 3 && ValidKey(inputElement[2]))
+            else if(inputElement.Length == 3)
             {
-                SerializeBinary.Serialize(actual, inputElement[1], inputElement[2]);
+                SerializeBinary.Serialize(actual, inputElement[1], FormatKeyFromString(inputElement[2]));
             }
             else
                 Console.WriteLine("Erreur de syntaxe: enregistrerBinaire nomFichier Clef(optionnelle)");
@@ -201,9 +201,9 @@ namespace ballejos
                 SerializeXML.Serialize(actual, inputElement[1], FormatKeyFromUser());
             }
             // Clef donnée et valide
-            else if (inputElement.Length == 3 && ValidKey(inputElement[2]))
+            else if (inputElement.Length == 3)
             {
-                SerializeXML.Serialize(actual, inputElement[1], inputElement[2]);
+                SerializeXML.Serialize(actual, inputElement[1], FormatKeyFromString(inputElement[2]));
             }
             else
                 Console.WriteLine("Erreur de syntaxe: enregistrerXML nomFichier Clef(optionnelle)");
@@ -279,27 +279,18 @@ namespace ballejos
             return currentFolder;
         }
 
-        private static String FormatKeyFromUser()
+        private static byte[] FormatKeyFromUser()
         {
-            // Utilisation du chiffrage DES donc on recupère les 8 premiers caractères du SID
-            String key = WindowsIdentity.GetCurrent().User.ToString().Replace("-", "").Substring(0, 8);
-            return key;
+            // Utilisation du chiffrage AES donc on crée une clef a partir du SID
+            UnicodeEncoding UE = new UnicodeEncoding();
+            return UE.GetBytes(WindowsIdentity.GetCurrent().User.ToString());
         }
 
-        private static bool ValidKey(String key)
+        private static byte[] FormatKeyFromString(String key)
         {
-            try
-            {
-                DESCryptoServiceProvider cryptic = new DESCryptoServiceProvider();
-                cryptic.Key = ASCIIEncoding.ASCII.GetBytes(key);
-                cryptic.IV = ASCIIEncoding.ASCII.GetBytes(key);
-            }
-            catch (Exception)
-            {
-                Console.Write("Clef invalide, elle doit faire 8 caractères: ");
-                return false;
-            }
-            return true;
+            // Utilisation du chiffrage AES donc on crée une clef a partir de la clef en String
+            UnicodeEncoding UE = new UnicodeEncoding();
+            return UE.GetBytes(key);
         }
 
     }
