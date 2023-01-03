@@ -132,8 +132,8 @@ namespace ballejos
                 tool2 = SerializeBinary.Deserialize(inputElement[1], inputElement[2]);
             }
             else
-                Console.WriteLine("Erreur de syntaxe");
-            
+                Console.WriteLine("Erreur de syntaxe: chargerBinaire nomFichier Clef(optionnelle)");
+
             // Si il n'y a pas eu de soucis on change
             if (tool2 != null)
             {
@@ -163,7 +163,7 @@ namespace ballejos
                 tool2 = SerializeXML.Deserialize(inputElement[1], inputElement[2]);
             }
             else
-                Console.WriteLine("Erreur de syntaxe");
+                Console.WriteLine("Erreur de syntaxe: chargerXML nomFichier Clef(optionnelle)");
 
             // Si il n'y a pas eu de soucis on change
             if (tool2 != null)
@@ -190,7 +190,7 @@ namespace ballejos
                 SerializeBinary.Serialize(actual, inputElement[1], inputElement[2]);
             }
             else
-                Console.WriteLine("Erreur de syntaxe");
+                Console.WriteLine("Erreur de syntaxe: enregistrerBinaire nomFichier Clef(optionnelle)");
         }
 
         private static void EnregistrerXML(String[] inputElement, DataStructure actual)
@@ -206,7 +206,7 @@ namespace ballejos
                 SerializeXML.Serialize(actual, inputElement[1], inputElement[2]);
             }
             else
-                Console.WriteLine("Erreur de syntaxe");
+                Console.WriteLine("Erreur de syntaxe: enregistrerXML nomFichier Clef(optionnelle)");
         }
 
         private static void AjouterDossier(String[] inputElement, Dossier currentFolder)
@@ -214,7 +214,7 @@ namespace ballejos
             if (inputElement.Length == 2)
                 currentFolder.AddElementInFolder(new Dossier(inputElement[1], currentFolder));
             else
-                Console.WriteLine("Erreur de syntaxe");
+                Console.WriteLine("Erreur de syntaxe: ajouterdossier nomDossier");
         }
 
         private static void AjouterContact(String[] inputElement, Dossier currentFolder)
@@ -238,7 +238,7 @@ namespace ballejos
                 }
             }
             else
-                Console.WriteLine("Erreur de syntaxe");
+                Console.WriteLine("Erreur de syntaxe: ajoutercontact nom prenom mail lien");
         }
 
         private static Dossier Avancer(String[] inputElement, Dossier currentFolder)
@@ -259,7 +259,7 @@ namespace ballejos
                 }
             }
             else
-                Console.WriteLine("Erreur de syntaxe");
+                Console.WriteLine("Erreur de syntaxe: avancer nomDossier");
 
             return currentFolder;
         }

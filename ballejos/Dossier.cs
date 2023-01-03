@@ -70,6 +70,7 @@ namespace ballejos
         {
             Children.Add(element);
             LastUpdate = DateTime.Now;
+            Console.WriteLine("Element ajouté");
         }
 
         // Si le nom du dossier à visiter existe dans la liste des enfants on renvoie l'instance de ce dossier, sinon on renvoit null

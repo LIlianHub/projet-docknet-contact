@@ -31,12 +31,15 @@ namespace ballejos
                 DESCryptoServiceProvider cryptic = new DESCryptoServiceProvider();
                 cryptic.Key = ASCIIEncoding.ASCII.GetBytes(key);
                 cryptic.IV = ASCIIEncoding.ASCII.GetBytes(key);
-                CryptoStream crStream = new CryptoStream(fs, cryptic.CreateEncryptor(), CryptoStreamMode.Write);
 
                 // On enregistre notre objet
-                formatter.Serialize(crStream, myds);
-                
-                crStream.Close();
+                using (CryptoStream crStream = new CryptoStream(fs, cryptic.CreateDecryptor(), CryptoStreamMode.Write))
+                {
+                    // On essaye de lire le fichier
+                    formatter.Serialize(crStream, myds);
+                }
+
+                Console.WriteLine("Sauvegarde effectuée sous le nom {0}", fileName);
             }
 
             // Exception levée si la clef n'est pas bien formattée
@@ -83,6 +86,7 @@ namespace ballejos
                         // On essaye de lire le fichier
                         myds = formatter.Deserialize(crStream) as DataStructure;
                     }
+                    Console.WriteLine("Chargement effectué du fichier {0}", fileName);
                 }
             }
             // Exception levée car le fichier existe pas (erreur lors de fs)
