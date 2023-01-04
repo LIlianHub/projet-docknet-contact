@@ -8,6 +8,7 @@ namespace ballejos
 {
     public interface ISerialize
     {
-
+        void Serialize(DataStructure myds, String name, byte[] key);
+        DataStructure Deserialize(String name, byte[] key);
     }
 }

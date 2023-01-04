@@ -55,24 +55,24 @@ namespace ballejos
 
                     // Charge un fichier binaire: charger nomFichier Clef(optionnelle)
                     case "chargerBinaire":
-                        dataStructure = ChargerBinaire(inputElement, dataStructure);
+                        dataStructure = Charger(inputElement, dataStructure, new SerializeBinary());
                         currentFolder = dataStructure.Root;
                         break;
 
                     // Charge un fichier XML: charger nomFichier
                     case "chargerXML":
-                        dataStructure = ChargerXML(inputElement, dataStructure);
+                        dataStructure = Charger(inputElement, dataStructure, new SerializeXML());
                         currentFolder = dataStructure.Root;
                         break;
 
                     // Enregistre la structure de donnée en Binaire: enregistrer nomFichier Clef(optionnelle)
                     case "enregistrerBinaire":
-                        EnregistrerBinaire(inputElement, dataStructure);
+                        Enregistrer(inputElement, dataStructure, new SerializeBinary());
                         break;
 
                     // Enregistre la structure de donnée en XML: enregistrer nomFichier
                     case "enregistrerXML":
-                        EnregistrerXML(inputElement, dataStructure);
+                        Enregistrer(inputElement, dataStructure, new SerializeXML());
                         break;
 
                     // Créer un dossier à l'emplacement courant: ajouterdossier nomDossier
@@ -115,22 +115,22 @@ namespace ballejos
             Console.WriteLine(ds.ToString());
         }
 
-        // Gère l'entrée utilisateur pour charger un fichier binaire
-        private static DataStructure ChargerBinaire(String[] inputElement, DataStructure actual)
+        // Gère l'entrée utilisateur pour charger une structure selon le serializer voulu
+        private static DataStructure Charger(String[] inputElement, DataStructure actual, ISerialize serializer)
         {
             DataStructure tool2 = null;
             // Pas de clef donnée
             if (inputElement.Length == 2)
             {
                 // On charge en déchiffrant à l'aide du SID
-                tool2 = SerializeBinary.Deserialize(inputElement[1], FormatKeyFromUser());
+                tool2 = serializer.Deserialize(inputElement[1], FormatKeyFromUser());
             }
 
             // Clef donnée et valide
             else if(inputElement.Length == 3)
             {
                 // On charge en déchiffrant avec la clef donnée
-                tool2 = SerializeBinary.Deserialize(inputElement[1], FormatKeyFromString(inputElement[2]));
+                tool2 = serializer.Deserialize(inputElement[1], FormatKeyFromString(inputElement[2]));
             }
             else
                 Console.WriteLine("Erreur de syntaxe: chargerBinaire nomFichier Clef(optionnelle)");
@@ -147,70 +147,21 @@ namespace ballejos
             }
         }
 
-        // Gère l'entrée utilisateur pour charger un fichier XML
-        private static DataStructure ChargerXML(String[] inputElement, DataStructure actual)
-        {
-            DataStructure tool2 = null;
-            // Pas de clef donnée
-            if (inputElement.Length == 2)
-            {
-                // On charge en déchiffrant à l'aide du SID
-                tool2 = SerializeXML.Deserialize(inputElement[1], FormatKeyFromUser());
-            }
-
-            // Clef donnée et valide
-            else if (inputElement.Length == 3)
-            {
-                // On charge en déchiffrant avec la clef donnée
-                tool2 = SerializeXML.Deserialize(inputElement[1], FormatKeyFromString(inputElement[2]));
-            }
-            else
-                Console.WriteLine("Erreur de syntaxe: chargerXML nomFichier Clef(optionnelle)");
-
-            // Si il n'y a pas eu de soucis on change
-            if (tool2 != null)
-            {
-                return tool2;
-            }
-            // Sinon on reste comme avant
-            else
-            {
-                return actual;
-            }
-        }
-
-        // Gère l'entrée utilisateur pour enregistrer un fichier binaire
-        private static void EnregistrerBinaire(String[] inputElement, DataStructure actual)
+        // Gère l'entrée utilisateur pour enregistrer la structure selon le serializer voulu
+        private static void Enregistrer(String[] inputElement, DataStructure actual, ISerialize serializer)
         {
             // Pas de clef donnée
             if (inputElement.Length == 2)
             {
-                SerializeBinary.Serialize(actual, inputElement[1], FormatKeyFromUser());
+                serializer.Serialize(actual, inputElement[1], FormatKeyFromUser());
             }
             // Clef donnée et valide
             else if(inputElement.Length == 3)
             {
-                SerializeBinary.Serialize(actual, inputElement[1], FormatKeyFromString(inputElement[2]));
+                serializer.Serialize(actual, inputElement[1], FormatKeyFromString(inputElement[2]));
             }
             else
                 Console.WriteLine("Erreur de syntaxe: enregistrerBinaire nomFichier Clef(optionnelle)");
-        }
-
-        // Gère l'entrée utilisateur pour enregistrer un fichier XML
-        private static void EnregistrerXML(String[] inputElement, DataStructure actual)
-        {
-            // Pas de clef donnée
-            if (inputElement.Length == 2)
-            {
-                SerializeXML.Serialize(actual, inputElement[1], FormatKeyFromUser());
-            }
-            // Clef donnée et valide
-            else if (inputElement.Length == 3)
-            {
-                SerializeXML.Serialize(actual, inputElement[1], FormatKeyFromString(inputElement[2]));
-            }
-            else
-                Console.WriteLine("Erreur de syntaxe: enregistrerXML nomFichier Clef(optionnelle)");
         }
 
         // Gère l'entrée utilisateur pour ajouter un dossier

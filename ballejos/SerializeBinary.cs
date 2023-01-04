@@ -10,8 +10,11 @@ namespace ballejos
 {
     internal class SerializeBinary: ISerialize
     {
+        public SerializeBinary()
+        {
+        }
 
-        public static void Serialize(DataStructure myds, String name, byte[] key)
+        public void Serialize(DataStructure myds, String name, byte[] key)
         {
             // Nom d'utilisateur dans  la case 1 (dans la case 0 nom du pc)
             String[] formatedName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split('\\');
@@ -60,7 +63,7 @@ namespace ballejos
             }
         }
 
-        public static DataStructure Deserialize(String name, byte[] key)
+        public DataStructure Deserialize(String name, byte[] key)
         {
             DataStructure myds = null;
 
