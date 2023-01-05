@@ -27,10 +27,6 @@ namespace ballejos
             // Notre Dossier actuel
             Dossier currentFolder = dataStructure.Root;
 
-            // Nos deux serializer pour les deux formats
-            SerializeXML xmlSerializer = new SerializeXML();
-            SerializeBinary binSerializer = new SerializeBinary();
-
             // Boucle Principale adaptable pour du graphique
             while (!exit)
             {
@@ -59,24 +55,24 @@ namespace ballejos
 
                     // Charge un fichier binaire: charger nomFichier Clef(optionnelle)
                     case "chargerBinaire":
-                        dataStructure = Charger(inputElement, dataStructure, binSerializer);
+                        dataStructure = Charger(inputElement, dataStructure, SerializationFactory.GetSerializer("Binary"));
                         currentFolder = dataStructure.Root;
                         break;
 
                     // Charge un fichier XML: charger nomFichier
                     case "chargerXML":
-                        dataStructure = Charger(inputElement, dataStructure, xmlSerializer);
+                        dataStructure = Charger(inputElement, dataStructure, SerializationFactory.GetSerializer("XML"));
                         currentFolder = dataStructure.Root;
                         break;
 
                     // Enregistre la structure de donnée en Binaire: enregistrer nomFichier Clef(optionnelle)
                     case "enregistrerBinaire":
-                        Enregistrer(inputElement, dataStructure, binSerializer);
+                        Enregistrer(inputElement, dataStructure, SerializationFactory.GetSerializer("Binary"));
                         break;
 
                     // Enregistre la structure de donnée en XML: enregistrer nomFichier
                     case "enregistrerXML":
-                        Enregistrer(inputElement, dataStructure, xmlSerializer);
+                        Enregistrer(inputElement, dataStructure, SerializationFactory.GetSerializer("XML"));
                         break;
 
                     // Créer un dossier à l'emplacement courant: ajouterdossier nomDossier
