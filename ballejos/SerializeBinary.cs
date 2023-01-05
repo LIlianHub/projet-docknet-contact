@@ -44,12 +44,6 @@ namespace ballejos
 
                 Console.WriteLine("Sauvegarde effectuée sous le nom {0}", fileName);
             }
-
-            // Exception levée si la clef n'est pas bien formattée
-            catch (ArgumentException)
-            {
-                Console.WriteLine("La clef doit faire 8 caractères");
-            }
             // Exception levée si erreur dans l'écriture (imprévue)
             catch (Exception e)
             {
@@ -101,11 +95,6 @@ namespace ballejos
             catch (CryptographicException)
             {
                 Console.WriteLine("Erreur lors du déchiffrage: clef possiblement invalide");
-            }
-            // Exception levée car la clef n'est pas bien formattée
-            catch (ArgumentException)
-            {
-                Console.WriteLine("La clef doit faire 8 caractères");
             }
             // Exception imprévue
             catch (Exception e)
