@@ -176,7 +176,7 @@ namespace ballejos
         // Gère l'entrée utilisateur pour ajouter un contact
         private static void AjouterContact(String[] inputElement, Dossier currentFolder)
         {
-            if (inputElement.Length == 5)
+            if (inputElement.Length == 6)
             {
                 // On teste la validité du Mail
                 MailAddress mailAddress = null;
@@ -191,12 +191,13 @@ namespace ballejos
                 // Si l'email est valide on enregistre le contact !
                 if (mailAddress != null)
                 {
-                    currentFolder.AddElementInFolder(new Contact(inputElement[1], inputElement[2], inputElement[3], inputElement[4]));
+                    currentFolder.AddElementInFolder(new Contact(inputElement[1], inputElement[2], inputElement[3], inputElement[4], Contact.StringToRelationContact(inputElement[5])));
                 }
             }
             else
-                Console.WriteLine("Erreur de syntaxe: ajoutercontact nom prenom mail lien");
+                Console.WriteLine("Erreur de syntaxe: ajoutercontact nom prenom mail societe relation(Ami, Collègue, Relation, Réseau)");
         }
+        
 
         // Gère l'entrée utilisateur pour aller dans un dossier
         private static Dossier Avancer(String[] inputElement, Dossier currentFolder)
