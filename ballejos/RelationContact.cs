@@ -8,10 +8,10 @@ namespace ballejos
 {
     public enum RelationContact
     {
+        Défaut,
         Ami,
         Collègue,
         Relation,
         Réseau,
-        Défaut
     }
 }
