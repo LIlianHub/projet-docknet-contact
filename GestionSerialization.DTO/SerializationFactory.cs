@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ballejos
 {
-    internal class SerializationFactory
+    public class SerializationFactory
     {
 
         // Retourne le sérialiseur désiré

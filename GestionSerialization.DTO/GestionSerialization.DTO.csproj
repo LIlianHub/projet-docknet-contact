@@ -4,18 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4B581740-CE62-4C84-91EE-6DDA88968FC6}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>ballejos</RootNamespace>
-    <AssemblyName>ballejos</AssemblyName>
+    <ProjectGuid>{9E7E25ED-B887-4473-98AA-F60D3BB9426D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>GestionSerialization.DTO</RootNamespace>
+    <AssemblyName>GestionSerialization.DTO</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,17 +21,14 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <LangVersion>preview</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <LangVersion>preview</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -46,20 +41,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="ISerialize.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
+    <Compile Include="SerializationFactory.cs" />
+    <Compile Include="SerializeBinary.cs" />
+    <Compile Include="SerializeXML.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataStructure.DTO\DataStructure.DTO.csproj">
       <Project>{bf098d2b-f888-4aa3-bdda-5193b2a96885}</Project>
       <Name>DataStructure.DTO</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GestionSerialization.DTO\GestionSerialization.DTO.csproj">
-      <Project>{9e7e25ed-b887-4473-98aa-f60d3bb9426d}</Project>
-      <Name>GestionSerialization.DTO</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
