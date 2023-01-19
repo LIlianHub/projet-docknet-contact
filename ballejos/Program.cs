@@ -53,24 +53,24 @@ namespace ballejos
                         Afficher(dataStructure);
                         break;
 
-                    // Charge un fichier binaire: charger nomFichier Clef(optionnelle)
+                    // Charge un fichier binaire: chargerBinaire nomFichier Clef(optionnelle)
                     case "chargerBinaire":
                         dataStructure = Charger(inputElement, dataStructure, SerializationFactory.GetSerializer("Binary"));
                         currentFolder = dataStructure.Root;
                         break;
 
-                    // Charge un fichier XML: charger nomFichier
+                    // Charge un fichier XML: chargerXML nomFichier
                     case "chargerXML":
                         dataStructure = Charger(inputElement, dataStructure, SerializationFactory.GetSerializer("XML"));
                         currentFolder = dataStructure.Root;
                         break;
 
-                    // Enregistre la structure de donnée en Binaire: enregistrer nomFichier Clef(optionnelle)
+                    // Enregistre la structure de donnée en Binaire: enregistrerBinaire nomFichier Clef(optionnelle)
                     case "enregistrerBinaire":
                         Enregistrer(inputElement, dataStructure, SerializationFactory.GetSerializer("Binary"));
                         break;
 
-                    // Enregistre la structure de donnée en XML: enregistrer nomFichier
+                    // Enregistre la structure de donnée en XML: enregistrerXML nomFichier
                     case "enregistrerXML":
                         Enregistrer(inputElement, dataStructure, SerializationFactory.GetSerializer("XML"));
                         break;

@@ -44,14 +44,11 @@ namespace ballejos
                 case "Collègue":
                     rel = RelationContact.Collègue;
                     break;
-                case "Relation":
-                    rel = RelationContact.Relation;
-                    break;
                 case "Réseau":
                     rel = RelationContact.Réseau;
                     break;
                 default:
-                    rel = RelationContact.Défaut;
+                    rel = RelationContact.Relation;
                     break;
             }
             return rel;
